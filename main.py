@@ -21,7 +21,17 @@ def create_document():
     # Save the news to Firestore
     for article in news["recentActivityArticles"]["activity"]:
         news_ref = db.collection('news').document()
-        news_ref.set(article)
+        condensed_article = {
+            "uri": article["uri"],
+            "title": article["title"],
+            "body": article["body"],
+            "dateTime": article["dateTime"],
+            "source": article["source"]["title"],
+            "sourceUri": article["source"]["uri"],
+            "url": article["url"],
+            "image": article["image"]
+        }
+        news_ref.set(condensed_article)
 
     print("Created a new document in 'news' collection.")
 
