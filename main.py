@@ -4,17 +4,38 @@ from firebase_admin import firestore
 import time
 import requests
 import json
+from sources import sources
+from news_request import create_request_body
+import os
 
-cred = credentials.Certificate("gossipai-server-firebase-adminsdk-rasja-b50b600f22.json")
+cred = credentials.Certificate({
+    "type": os.getenv("FIREBASE_TYPE"),
+    "project_id": os.getenv("FIREBASE_PROJECT_ID"),
+    "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
+    "private_key": os.getenv("FIREBASE_PRIVATE_KEY"),
+    "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
+    "client_id": os.getenv("FIREBASE_CLIENT_ID"),
+    "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
+    "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("FIREBASE_CERT_URL"),
+    "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_CERT_URL"),
+    "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN"),
+})
+
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
 def create_document():
 
-    url = "https://newsapi.ai/api/v1/minuteStreamArticles?query=%7B%22%24query%22%3A%7B%22%24or%22%3A%5B%7B%22lang%22%3A%22eng%22%7D%2C%7B%22lang%22%3A%22tur%22%7D%2C%7B%22lang%22%3A%22deu%22%7D%5D%7D%2C%22%24filter%22%3A%7B%22isDuplicate%22%3A%22skipDuplicates%22%7D%7D&apiKey=15612acc-18f1-4014-83a2-db4d45297aa7&callback=JSON_CALLBACK"
+    url = "https://newsapi.ai/api/v1/minuteStreamArticles"
 
-    response = requests.get(url)
+    response = requests.post(
+        url,
+        headers={"Content-Type": "application/json"},
+        data=json.dumps(create_request_body(sources=sources, apiKey=os.getenv("NEWS_API_KEY")))
+    )
+
     response_text = response.text[14:-1]
     news = json.loads(response_text)
 
