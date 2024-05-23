@@ -37,8 +37,7 @@ def create_document():
         data=json.dumps(create_request_body(sources=sources, apiKey=os.getenv("NEWS_API_KEY")))
     )
 
-    response_text = response.text[14:-1]
-    news = json.loads(response_text)
+    news = json.loads(response.text)
 
     # Save the news to Firestore
     for article in news["recentActivityArticles"]["activity"]:
