@@ -5,7 +5,7 @@ import time
 import requests
 import json
 from sources import sources
-from news_request import create_request_body
+from news_request import request_body
 import os
 import base64
 
@@ -34,7 +34,7 @@ def create_document():
     response = requests.post(
         url,
         headers={"Content-Type": "application/json"},
-        data=json.dumps(create_request_body(sources=sources, apiKey=os.getenv("NEWS_API_KEY")))
+        data=json.dumps(request_body)
     )
 
     news = json.loads(response.text)
@@ -59,4 +59,4 @@ def create_document():
 
 while True:
     create_document()
-    time.sleep(7200)
+    time.sleep(600)
