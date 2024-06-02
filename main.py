@@ -5,7 +5,7 @@ import time
 import requests
 import json
 from sources import sources
-from news_request import request_body
+from news_request import request_body, request_body_alt
 import os
 import base64
 
@@ -34,7 +34,7 @@ def create_document():
     response = requests.post(
         url,
         headers={"Content-Type": "application/json"},
-        data=json.dumps(request_body)
+        data=json.dumps(request_body_alt)
     )
 
     news = json.loads(response.text)
