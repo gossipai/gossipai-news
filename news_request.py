@@ -38,5 +38,6 @@ request_body_alt = {
     "startSourceRankPercentile": 70,
     "endSourceRankPercentile": 100,
     "isDuplicate": "skipDuplicates"
-  }
+  },
+  "apiKey": os.getenv("NEWS_API_KEY")
 }

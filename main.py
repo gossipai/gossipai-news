@@ -37,11 +37,6 @@ def create_document():
         data=json.dumps(request_body_alt)
     )
 
-    print("Response status code: ", response.text)
-    if not response.text:
-        print("No news found.")
-        return
-
     news = json.loads(response.text)
 
     # Save the news to Firestore
