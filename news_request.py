@@ -35,6 +35,7 @@ request_body_alt = {
             ]
         },
         "$filter": {
+            "dataType": "news",
             "hasEvent": "skipArticlesWithoutEvent",
             "startSourceRankPercentile": 70,
             "endSourceRankPercentile": 100,
