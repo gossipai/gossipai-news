@@ -27,16 +27,19 @@ request_body_alt = {
         "$query": {
             "$and": [
                 {
-                    "sourceLocationUri": "http://en.wikipedia.org/wiki/United_States"
-                },
-                {
-                    "lang": "eng"
+                    "$or": [
+                        {
+                            "sourceLocationUri": "http://en.wikipedia.org/wiki/United_States"
+                        },
+                        {
+                            "sourceLocationUri": "http://en.wikipedia.org/wiki/United_Kingdom"
+                        }
+                    ]
                 }
             ]
         },
         "$filter": {
-            "dataType": "news",
-            "startSourceRankPercentile": 80,
+            "startSourceRankPercentile": 50,
             "endSourceRankPercentile": 100,
             "isDuplicate": "skipDuplicates"
         }
